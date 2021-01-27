@@ -14414,3 +14414,43 @@ img {vertical-align: middle;}
     line-height: 1;
     align-items: center;
  }
+ .text-right{
+     float: right;
+ }
+ .boldtxt{
+   font-weight: 600;
+ }
+ .lighttxt{
+     font-weight: 300;
+ }
+ hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+.btnorder{
+    width: 100%;
+    border-radius: 9px;
+}
+.textred{
+    color: rgb(202, 4, 4);
+}
+.imgwidth{
+    width: 100%;
+}
+.blackcolor{
+    color: #000;
+}
+.txtlinethrough{
+    text-decoration: line-through;
+}
+.btncheckout{
+    border-radius: 0;
+    width: 100%;
+}
+.borderdiv{
+    border: 1px solid #e9ecef;
+    padding: 12px;
+    border-radius: 9px;
+}

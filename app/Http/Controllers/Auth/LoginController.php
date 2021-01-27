@@ -84,11 +84,13 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         $you = auth()->user();
+        //dd($you);
+
         if($this->authenticated($request, $this->guard()->user())){
         }
         else{
             if(!empty($you) && !empty($you->user_type)){
-                if($you->user_type == 'Member'){
+                /*if($you->user_type == 'Member'){
                     return redirect()->route('show_member_dashboard');
                 }
                 elseif($you->user_type == 'Vendor'){
@@ -96,7 +98,8 @@ class LoginController extends Controller
                 }
                 else{
                     return redirect()->route('show_enterprise_account');
-                } 
+                }*/
+                return redirect()->route($you->getUserAccountUrl());
             }
             else{
                 return redirect()->intended($this->redirectPath());

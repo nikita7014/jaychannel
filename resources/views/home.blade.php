@@ -28,12 +28,22 @@
                   <a class="nav-link  " href="{{ route('home') }}#aboutjaypad"> JayPad </a>
                </li>
                <li class="nav-item ">
+                  @guest
                   <a onclick="signin()" class="nav-link dropbtn">Sign in</a>
                   <div id="loginDropdown" class="dropdown-content">
                           <a href="{{ route('member_login') }}">I'm a Member</a>
                           <a href="{{ route('enterprise_login') }}">I'm an Enterprise</a>
                           <a href="{{ route('signinvendor_login') }}">I'm a Vendor</a>
                   </div>
+                  @endguest
+
+                  @auth
+                     <a onclick="signin()" class="nav-link dropbtn">Welcome ({{ Auth::user()->name }})</a>
+                     <div id="loginDropdown" class="dropdown-content">
+                        <a href="{{ route(Auth::user()->getUserAccountUrl()) }}">Manage Profile</a>
+                        <a href="{{ route('user_logout') }}">Sign Out</a>
+                     </div>                      
+                  @endauth
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="#">Contact</a>
@@ -65,12 +75,22 @@
                   <a class="nav-link  " href="{{ route('home') }}#aboutjaypad"> JayPad </a>
                </li>
                <li class="nav-item ">
+                  @guest
                   <a onclick="myFunction()" class="nav-link dropbtn">Sign in</a>
                   <div id="loginDropdown" class="dropdown-content">
                           <a href="{{ route('member_login') }}">I'm a Member</a>
                           <a href="{{ route('enterprise_login') }}">I'm an Enterprise</a>
                           <a href="{{ route('signinvendor_login') }}">I'm a Vendor</a>
                   </div>
+                  @endguest
+
+                  @auth
+                     <a onclick="myFunction()" class="nav-link dropbtn">Welcome ({{ Auth::user()->name }})</a>
+                     <div id="loginDropdown" class="dropdown-content">
+                          <a href="{{ route(Auth::user()->getUserAccountUrl()) }}">Manage Profile</a>
+                          <a href="{{ route('user_logout') }}">Sign Out</a>
+                     </div>                      
+                  @endauth                  
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="#">Contact</a>
@@ -84,7 +104,25 @@
 </header>
 <!-- header -->
 <!--Some Feature -->
-<br><br><br><br>
+<br/><br/>
+<section style="margin-top: auto;min-height: max-content;">
+  <div class="container">
+  @if(Session::has('message'))
+    <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+  @endif
+
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+  @endif
+  </div>  
+</section> 
+
 <section id="our-feature" class="single-feature padding">
    <div class="container">
       <div class="row d-flex align-items-center">
@@ -281,7 +319,12 @@
          <div data-filter="*" class="cbp-filter-item">
             <span>Group <br> Games</span>
          </div>
-         <div data-filter=".arts" class="cbp-filter-item">
+         @foreach ($content_types as $content_type)
+         <div class="cbp-filter-item" style="width: 90px; vertical-align: top;">
+            <a href="{{ route('our_services_view_all') }}/{{ $content_type->id }}"><span>{{ $content_type->name }}</span></a>
+         </div>
+         @endforeach
+         <!--<div data-filter=".arts" class="cbp-filter-item">
             <span>Arts & <br> Crafts</span>
          </div>
          <div data-filter=".jaquard-elastics-tapes" class="cbp-filter-item">
@@ -301,7 +344,7 @@
          </div>
          <div data-filter=".woven-elastics-tapes" class="cbp-filter-item">
             <span>Education & <br>Family</span>
-         </div>
+         </div>-->
          <br>
          <div class="cbp-filter-item">
             <span><a href="{{ route('our_services_view_all') }}"><button class="submit">View all</button></a></span>
@@ -311,7 +354,59 @@
       <br>
       <div id="services-measonry" class="cbp">
          <div class="row">
-            <div class="cbp-item brand design graphics arts">
+         <?php
+         $course_listing = '';
+         foreach($courses as $course){
+            $user_details = $course->Owner()->get();
+
+            $course_listing .= '<div class="cbp-item brand design graphics arts">
+               <div class="services-main">
+                  <div class="image bottom10">
+                     <div class="image"><a href="'.route('view_course_details').'/'.$course->id.'"><img alt="SEO" src="'.config('app.url').'/storage/app/course_browser_image/'.$course->browser_image_2.'" /></a></div>
+                     <div class="overlay">
+                        <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
+                     </div>
+                  </div>
+                  <div class="services-content text-center text-md-left">
+                     <p class="bottom15"><a href="'.route('view_course_details').'/'.$course->id.'">'.$course->title.'</a><br><br>';
+
+            if($course->day_monday === 1){
+                 $course_listing .= 'Mo,';
+            }
+
+            if($course->day_tuesday === 1){
+                 $course_listing .= 'Tu,';
+            }
+
+            if($course->day_wednesday === 1){
+                 $course_listing .= 'We,';
+            }
+
+            if($course->day_thursday === 1){
+                 $course_listing .= 'Th,';
+            }
+
+            if($course->day_friday === 1){
+                 $course_listing .= 'Fr,';
+            }
+
+            if($course->day_saturday === 1){
+                 $course_listing .= 'Sa,';
+            }                                    
+
+            if($course->day_sunday === 1){
+                 $course_listing .= 'Su,';
+            }
+
+            $course_listing .= date("M d", strtotime($course->start_date)).'-'.date("M d, Y ", strtotime($course->end_date)).date("g:i A ", strtotime($course->start_time)).'(EST)<br><br>By <span class="blue">'.$user_details[0]->enterprise_name.', '.$user_details[0]->location.'</span>
+                     </p>
+                  </div>
+               </div>
+            </div>';
+         }
+         echo $course_listing;
+         ?>
+            <!--<div class="cbp-item brand design graphics arts">
                <div class="services-main">
                   <div class="image bottom10">
                      <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/New/cat1.jpg') }}"></div>
@@ -408,66 +503,36 @@
                         By <span class="blue">EasterSeals Southern California</span>
                   </div>
                </div>
-            </div>
+            </div>-->
             <!-- <div class="cbp-item brand design graphics">
                <div class="services-main">
-               
                    <div class="image bottom10">
-               
                        <div class="image"><img alt="SEO" src="/images/9.PNG"></div>
-               
-                       
-               
                    </div>
-               
                    <div class="services-content text-center text-md-left">
-               
                        <p class="bottom15">Indian Handmade Art- a Journey Back in History
-               
                            <br><br>
-               
                            Tu,Fr,Dec 12-Feb 5, 2021 11:00AM (EST)
-               
                            <br><br>
-               
                            By <span class="blue">EasterSeals Southern California</span>
-               
                        </p>
-               
                    </div>
-               
                </div>
-               
                </div> -->
             <!-- <div class="cbp-item brand design graphics">
                <div class="services-main">
-               
                    <div class="image bottom10">
-               
                        <div class="image"><img alt="SEO" src="/images/10.PNG"></div>
-               
-                     
-               
                    </div>
-               
                    <div class="services-content text-center text-md-left">
-               
                        <p class="bottom15">Indian Handmade Art- a Journey Back in History
-               
                            <br><br>
-               
                            Tu,Fr,Dec 12-Feb 5, 2021 11:00AM (EST)
-               
                            <br><br>
-               
                            By <span class="blue">EasterSeals Southern California</span>
-               
                        </p>
-               
                    </div>
-               
                </div>
-               
                </div> -->
          </div>
       </div>
@@ -532,13 +597,15 @@
                <div class="row">
                   <div class="col-md-1"></div>
                   <div class="searchdown col-md-9 " style="    padding-left: 2px;">
-                     <input class="dropbtnn" id="Input" placeholder="21090">
+                     <input class="dropbtnn" name="fldSearchVendor" id="fldSearchVendor" placeholder="Enter zipcode">
                   </div>
                </div>
                <br>
                <p>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Providers in your area:</p>
                &nbsp;&nbsp;
-               <p class="">
+               <span id="section_search_result">
+
+               <!--<p class="">
                   <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
                   <span class="blue">Foundations Group, Maryland</span>&nbsp;&nbsp;
                   <button class="button1 button5">Patient </br> Health</button>
@@ -565,7 +632,9 @@
                   <span class="blue">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ChairOne
                   Fitness</span>&nbsp;&nbsp;
                   <button class="button1 button5">Fitness</button>
-               </p>
+               </p>-->
+
+               </span>               
             </div>
          </div>
       </div>
@@ -593,7 +662,7 @@
 <!--Some Feature -->
 <section id="our-feature" class="single-feature padding">
    <div class="container" id="activeDay">
-      <br><br>
+      <!--<br><br>
       <div class="text-center">
          <div>
             <img src="{{ asset('assets/app/images/activeland.PNG') }}" alt="" class="">
@@ -675,7 +744,7 @@
          <button class="submit-lg btn-lg"> Visit Vendor's Website</button>
          &nbsp;&nbsp;
          <button class=" button button6 button4"> Email Vendor</button>
-      </div>
+      </div>-->
    </div>
 </section>
 <br>
@@ -707,7 +776,50 @@
 <div class="container">
    <div id="services-measonry">
       <div class="row">
+        @foreach ($credits as $credit)
+          @if ($credit->is_for_sale == 1)
          <div class="cbp-item brand design graphics">
+            <div class="services-main">
+               <div class="image bottom10">
+                  <div class="image" onclick="myFunction()"><a href="#panel"> 
+                    @if ($credit->points == 50)
+                    <img class="h200" alt="SEO" src="{{ asset('assets/app/images/50credit.png') }}" />
+                    @elseif ($credit->points == 200)
+                    <img class="h200" alt="SEO" src="{{ asset('assets/app/images/200credi.png') }}" />
+                    @elseif ($credit->points == 500)
+                    <img class="h200" alt="SEO" src="{{ asset('assets/app/images/500credi.png') }}" />
+                    @endif
+                  </a></div>
+                  <div class="overlay">
+                     <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
+                  </div>
+               </div>
+               <div class="services-content text-center ">
+                  <p class="bottom15">${{ $credit->cost_amount }}
+                  </p>
+               </div>
+            </div>
+         </div>
+         @else
+         <div class="cbp-item brand design graphics">
+            <div class="services-main">
+               <div class="image bottom10">
+                  <div class="image" onclick="myFunction()"><a href="#panel"><img class="h200" alt="SEO"
+                     src="{{ asset('assets/app/images/enter2.jpg') }}"></a></div>
+                  <div class="overlay">
+                     <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
+                  </div>
+               </div>
+               <div class="services-content text-center text-md-left">
+                  <p class="bottom15">{{ $credit->content }}
+                  </p>
+               </div>
+            </div>
+         </div>
+         @endif
+        @endforeach
+
+         <!--<div class="cbp-item brand design graphics">
             <div class="services-main">
                <div class="image bottom10">
                   <div class="image" onclick="myFunction()"><a href="#panel"> <img class="h200" alt="SEO"
@@ -768,7 +880,7 @@
                   </p>
                </div>
             </div>
-         </div>
+         </div>-->
       </div>
    </div>
 </div>
@@ -965,111 +1077,50 @@
       ">
       <!-- <div class="row1 row ">
          <div class="col col-lg-2 ">
-         
              <div class="page-titles whitecolor text-center padding">
-         
                          <div class="card">
-         
-                             
-         
                              <div class="card-body">
-         
                                  <h3>Your Story</h3>
-         
                                  <br>
-         
                                <p>If JayChannel has made difference in your life, let us know</p>
-         
                              </div>
-         
                          </div>
-         
                      </div>
-         
              </div>
-         
              <div class="col col-lg-2 ">
-         
                  <div class="page-titles whitecolor text-center padding">
-         
                              <div class="card">
-         
-                                 
-         
                                  <div class="card-body">
-         
                                      <h3>I'm a Vendor</h3>
-         
                                      <br>
-         
-                                  
-         
                                  </div>
-         
                              </div>
-         
                      </div>
-         
                  </div>
-         
                  <div class="col col-lg-2 ">
-         
                      <div class="page-titles whitecolor text-center padding">
-         
                                  <div class="card">
-         
-                                     
-         
                                      <div class="card-body">
-         
                                          <h3>I'm a Vendor</h3>
-         
                                          <br>
-         
                                          <form>
-         
                                              <div class="input-group form-group">
-         
                                                 Username &nbsp;&nbsp;
-         
                                                  <input type="text" class="form-control inputtop" >
-         
-                                                 
-         
                                              </div>
-         
                                              <div class="input-group form-group ">
-         
                                                 Password &nbsp;&nbsp;
-         
                                                  <input type="password" class="form-control inputtop">
-         
                                              </div>
-         
-                                           
-         
                                              <div class="form-group">
-         
                                                  <input type="submit" value="Enter" class="btn float-right login_btn">
-         
                                              </div>
-         
                                          </form>
-         
                                      </div>
-         
                              </div>
-         
                          </div>
-         
                      </div>
-         
-           
-         
-           
-         
          </div>
-         
          </div> -->
       <div class="row2 padding container">
          <div class="row">
@@ -1163,12 +1214,47 @@
     /* When the user clicks on the button, 
     toggle between hiding and showing the dropdown content */
 
-    function signin() {
+   function search_nearby_vendor(zipcode){
+      $.ajax({
+         method: "POST",
+         url: "{{ route('search_vendor') }}",
+         data: { _token: "{{ csrf_token() }}", zipcode: zipcode }
+      })
+      .done(function( msg ) {
+         console.log( "Data Saved: " + msg );
+         $( "#section_search_result" ).html(msg);           
+      }); 
+   }
+
+   function show_vendor_details(vendor_id){
+      console.log('Vendor ID => ' + vendor_id);
+      $.ajax({
+         method: "POST",
+         url: "{{ route('show_vendor_details') }}",
+         data: { _token: "{{ csrf_token() }}", vendor_id: vendor_id }
+      })
+      .done(function( msg ) {
+         console.log( "Data Saved: " + msg );
+         $( "#activeDay" ).html(msg).show();           
+      }); 
+   }
+
+   $( document ).ready(function() {
+      //console.log( "ready!" );
+
+      $( "#fldSearchVendor" ).keyup(function() {
+         search_nearby_vendor($(this).val());
+      });      
+
+      //search_nearby_vendor('');
+   });
+
+   function signin() {
       document.getElementById("loginDropdown").classList.toggle("show");
-    }
+   }
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
+   window.onclick = function(event) {
       if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
@@ -1179,103 +1265,102 @@
           }
         }
       }
-    }
+   }
 </script>
 <script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
+   var coll = document.getElementsByClassName("collapsible");
+   var i;
   
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-            this.classList.toggle("active1");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
-            } 
-          });
-        }
+   for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+         this.classList.toggle("active1");
+         var content = this.nextElementSibling;
+         if (content.style.maxHeight){
+            content.style.maxHeight = null;
+         } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+         } 
+      });
+   }
 </script>
 <!-- hide and show div -->
 <script>
-    function myFunction() {
-        document.getElementById("panel").style.display = "block";
-    }
+   function myFunction() {
+      document.getElementById("panel").style.display = "block";
+   }
 </script>
 <!-- hide and show div for active day -->
 <script>
 function activeDay() {
-    document.getElementById("activeDay").style.display = "block";
+   document.getElementById("activeDay").style.display = "block";
 }
 </script>
 <!-- search -->
 <script>
-    /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
+/* When the user clicks on the button,
+   toggle between hiding and showing the dropdown content */
 
-    function search() {
-      document.getElementById("searchDown").classList.toggle("showw");
-    }
+function search() {
+   document.getElementById("searchDown").classList.toggle("showw");
+}
   
-    function filterFunction() {
-      var input, filter, ul, li, a, i;
-      input = document.getElementById("Input");
-      filter = input.value.toUpperCase();
-      div = document.getElementById("searchDown");
-      a = div.getElementsByTagName("a");
-      for (i = 0; i < a.length; i++) {
-        txtValue = a[i].textContent || a[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          a[i].style.display = "";
-        } else {
-          a[i].style.display = "none";
-        }
+function filterFunction() {
+   var input, filter, ul, li, a, i;
+   input = document.getElementById("Input");
+   filter = input.value.toUpperCase();
+   div = document.getElementById("searchDown");
+   a = div.getElementsByTagName("a");
+   for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+         a[i].style.display = "";
+      } else {
+         a[i].style.display = "none";
       }
-    }
-    </script>
-    <script>
-    $(function(){
-    $('.fadein img:gt(0)').hide();
-    setInterval(function(){
-      $('.fadein :first-child').fadeOut()
-         .next('img').fadeIn()
-         .end().appendTo('.fadein');}, 
-      3000);
-    });
-    </script>
-    <!-- <script>
-        function subscribe() {
-          document.getElementById("subscribe").style.display = "block";
-        }
-    </script> -->
-    <script>
-        $(document).ready(function(){
-            $("#subscribe").click(function(){
-                $("#subs").toggle();
-            });
+   }
+}
+</script>
+<script>
+$(function(){
+   $('.fadein img:gt(0)').hide();
+   setInterval(function(){
+   $('.fadein :first-child').fadeOut()
+      .next('img').fadeIn()
+      .end().appendTo('.fadein');}, 
+   3000);
+});
+</script>
+<!-- <script>
+   function subscribe() {
+      document.getElementById("subscribe").style.display = "block";
+   }
+</script> -->
+<script>
+   $(document).ready(function(){
+      $("#subscribe").click(function(){
+         $("#subs").toggle();
+      });
+   });
+</script>
+<script>
+function btnsubmit(){
+   var Idwayswecare = document.getElementById('Idwayswecare');
+   var Idwayswecareform = document.getElementById('Idwayswecareform')
+   var Idgreatchoice = document.getElementById('Idgreatchoice');
 
-        });
-    </script>
-    <script>
-    function btnsubmit(){
-        var Idwayswecare = document.getElementById('Idwayswecare');
-        var Idwayswecareform = document.getElementById('Idwayswecareform')
-        var Idgreatchoice = document.getElementById('Idgreatchoice');
-
-        $.ajax({
-            method: "POST",
-            url: "{{ route('save_subscriber') }}",
-            data: { _token: "{{ csrf_token() }}", firstname: $("#fldSubscribeFirstname").val(), lastname: $("#fldSubscribeLastname").val(), email: $("#fldSubscribeEmail").val() }
-        })
-        .done(function( msg ) {
-            console.log( "Data Saved: " + msg );
-            if(Idwayswecare.style.display == 'block' && Idwayswecareform.style.display == 'block'){
-                Idwayswecare.style.display = 'none';
-                Idwayswecareform.style.display = 'none'
-                Idgreatchoice.style.display ='block'
-            }            
-        });        
-    }    
-    </script>
+   $.ajax({
+      method: "POST",
+      url: "{{ route('save_subscriber') }}",
+      data: { _token: "{{ csrf_token() }}", firstname: $("#fldSubscribeFirstname").val(), lastname: $("#fldSubscribeLastname").val(), email: $("#fldSubscribeEmail").val() }
+   })
+   .done(function( msg ) {
+      console.log( "Data Saved: " + msg );
+      if(Idwayswecare.style.display == 'block' && Idwayswecareform.style.display == 'block'){
+         Idwayswecare.style.display = 'none';
+         Idwayswecareform.style.display = 'none'
+         Idgreatchoice.style.display ='block'
+      }            
+   });        
+}    
+</script>
 @endsection

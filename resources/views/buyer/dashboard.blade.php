@@ -18,6 +18,21 @@
       <br>
       <h2 class="padding content-padding">Welcome back, Jack!</h2>
       <br>
+      <div class="notification-box">
+                          @if(Session::has('success_message'))
+                              <div class="alert alert-success" role="alert">
+                              {{ Session::get('success_message') }}
+                             </div>
+                        @endif
+ 
+                        @if(Session::has('error_message'))
+                            <div class="alert alert-danger" role="alert">
+                            {{ Session::get('error_message') }}
+                        </div>
+                        @endif
+                        
+                        
+                        </div>
       <div class="row d-flex ">
          <div class="col-lg-2 offset-lg-1 col-md-5 col-sm-5 " >
             <h4><span class="blue"><a href="#">Account</a></span></h4>
@@ -32,13 +47,16 @@
                </h4>
                <br>
                <br>
-               <form action="#">
+               
+               <form action="{{ route('add_card_details') }}" name="frmCreateCourse" method="POST" enctype="multipart/form-data">
+                  @csrf
                   <div class="row">
                      <div class="col-lg-2 col-6 text-left">
                         <label>Name </label>
                      </div>
                      <div class="col-lg-8 col-12">
-                        <input type="text" class="form-control custom-file float-right" id="" placeholder="Jack Wonder">
+                        <input type="text" class="form-control custom-file float-right" id="" name="user_name" value="{{$you['name']}}">
+                        <label class="error">{{ $errors->first('user_name') }}</label>
                      </div>
                   </div>
                   <br>
@@ -47,8 +65,9 @@
                         <label class="inline">Address </label>
                      </div>
                      <div class="col-lg-8 col-12">
-                        <input type="text" class="form-control custom-file float-right" id=""
-                           placeholder="333 Happy Drive, Half Moon Bay, CA 12345">
+                        <input type="text" class="form-control custom-file float-right" id="" name="address"
+                        value="{{$you['address']}}">
+                        <label class="error">{{ $errors->first('address') }}</label>
                      </div>
                   </div>
                   <br>
@@ -57,7 +76,8 @@
                         <label class="inline">Tel </label>
                      </div>
                      <div class="col-lg-8 col-12">
-                        <input type="text" class="form-control custom-file float-right" id="" placeholder="(415)888-9999">
+                        <input type="text" class="form-control custom-file float-right" name="tel" id="" value="{{$you['tel']}}">
+                        <label class="error">{{ $errors->first('tel') }}</label>
                      </div>
                   </div>
                   <br>
@@ -66,8 +86,9 @@
                         <label class="inline">Email </label>
                      </div>
                      <div class="col-lg-8 col-12">
-                        <input type="text" class="form-control custom-file float-right" id=""
-                           placeholder="Sue@sunnysideurbanmanor.com">
+                        <input type="text" class="form-control custom-file float-right" name="email" id=""
+                        value="{{$you['email']}}">
+                        <label class="error">{{ $errors->first('email') }}</label>
                      </div>
                   </div>
                   <br>
@@ -76,7 +97,8 @@
                         <label class="inline">Credit </label> &nbsp;&nbsp;
                      </div>
                      <div class="col-sm-2 col-12 text-left">
-                        <input type="text" class="form-control custom-file float-right" id="" placeholder="2000">&nbsp;&nbsp;
+                        <input type="text" class="form-control custom-file float-right" name="credit_amount" id="" placeholder="2000">&nbsp;&nbsp;
+                        <label class="error">{{ $errors->first('credit_amount') }}</label>
                      </div>
                      <div class="col-sm-1"></div>
                      <div class="col-sm-7 text-left col-12">
@@ -87,9 +109,10 @@
                   <div class="row">
                      <div class="col-lg-6 col-sm-6 col-xs-6">
                         <label class="switch">
-                        <input type="checkbox" checked="checked">
+                        <input type="checkbox" checked="checked" name="auto_refill" value="1">
                         <span class="slider round"> </span>
                         </label> &nbsp; Auto Refill &nbsp;&nbsp; Unused Credit &nbsp; 36
+                        <label class="error">{{ $errors->first('auto_refill') }}</label>
                      </div>
                   </div>
                   <br>
@@ -103,25 +126,28 @@
                         </span>
                      </div>
                      <div class="col-lg-8 col-12">
-                        <input type="text" class="form-control custom-file mb-2" id="" placeholder="4155 3341 2298 9900">
+                        <input type="text" class="form-control custom-file mb-2" name="card_no" id="" placeholder="4155 3341 2298 9900">
+                        <label class="error">{{ $errors->first('card_no') }}</label>
                         <div class="row">
                            <div class="col-lg-1 col-1">
                               <label for="" class="inline">Exp</label> &nbsp;
                            </div>
                            <div class="col-lg-3 col-3">
-                              <select class="form-control select inline" id="sel1">
+                              <select class="form-control select inline" name="exp_from" id="sel1">
                                  <option>1</option>
                                  <option>2</option>
                                  <option>3</option>
                                  <option>4</option>
                               </select>
+                              <label class="error">{{ $errors->first('exp_from') }}</label>
                            </div>
                            <div class="col-lg-3 col-3">
-                              <select class="form-control select inline " id="sel1">
+                              <select class="form-control select inline " name="exp_to" id="sel1">
                                  <option>25</option>
                                  <option>26</option>
                                  <option>27</option>
                                  <option>28</option>
+                                 <label class="error">{{ $errors->first('exp_to') }}</label>
                               </select>
                               &nbsp;
                            </div>
@@ -129,14 +155,15 @@
                               <label class="inline">CCV </label> 
                            </div>
                            <div class="col-lg-3 col-3">
-                              <input type="text" class="form-control custom-file inline" id="" placeholder="123">
+                              <input type="text" class="form-control custom-file inline" name="ccv_no" id="" placeholder="123">
+                              <label class="error">{{ $errors->first('ccv_no') }}</label>
                            </div>
                         </div>
                      </div>
                   </div>
                   <br><br><br>
                   <label class="containercheckmark">
-                  <input type="checkbox" class="form-control">
+                  <input type="checkbox"  class="form-control">
                   <span class="checkmark"></span>
                   <span>I have a FlightDeck account</span>
                   </label>
@@ -147,15 +174,17 @@
                         </label>
                      </div>
                      <div class="col-sm-10" >
-                        <input type="text" class="form-control custom-file float-right" id=""
+                        <input type="text" name="flightdeck_login" class="form-control custom-file float-right" id=""
                            placeholder="Sue@sunnysideurbanmanor.com">
+                           <label class="error">{{ $errors->first('flightdeck_login') }}</label>
                      </div>
                   </div>
                   <br>
                   <br>
                   <br>
+              
+               <input type="submit" value="Save" class="submit">
                </form>
-               <button class="submit">Save</button>
             </div>
          </div>
       </div>

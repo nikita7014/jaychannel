@@ -26,7 +26,12 @@
          <div data-filter="*" class="cbp-filter-item">
             <span>Group <br> Games</span>
          </div>
-         <div data-filter=".arts" class="cbp-filter-item">
+         @foreach ($content_types as $content_type)
+         <div class="cbp-filter-item" style="width: 90px; vertical-align: top;">
+            <a href="{{ route('our_services_view_all') }}/{{ $content_type->id }}"><span>{{ $content_type->name }}</span></a>
+         </div>
+         @endforeach         
+         <!--<div data-filter=".arts" class="cbp-filter-item">
             <span>Arts & <br> Crafts</span>
          </div>
          <div data-filter=".jaquard-elastics-tapes" class="cbp-filter-item">
@@ -46,15 +51,68 @@
          </div>
          <div data-filter=".woven-elastics-tapes" class="cbp-filter-item">
             <span>Education & <br>Family</span>
-         </div>
+         </div>-->
          <br>
          <div data-filter="*" class="cbp-filter-item">
-            <span><a ><button class="submit">View all</button></a></span>
+            <span><a href="{{ route('our_services_view_all') }}"><button class="submit">View all</button></a></span>
          </div>
       </div>
       <div id="services-measonry" class="cbp">
          <div class="row">
-            <div class="cbp-item brand design graphics arts">
+         <?php
+         $course_listing = '';
+         foreach($courses as $course){
+            $user_details = $course->Owner()->get();
+
+            $course_listing .= '<div class="cbp-item brand design graphics arts">
+               <div class="services-main">
+                  <div class="image bottom10">
+                     <div class="image"><a href="'.route('view_course_details').'/'.$course->id.'"><img alt="SEO" src="'.config('app.url').'/storage/app/course_browser_image/'.$course->browser_image_2.'" /></a></div>
+                     <div class="overlay">
+                        <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
+                     </div>
+                  </div>
+                  <div class="services-content text-center text-md-left">
+                     <p class="bottom15"><a href="'.route('view_course_details').'/'.$course->id.'">'.$course->title.'</a><br><br>';
+
+            if($course->day_monday === 1){
+                 $course_listing .= 'Mo,';
+            }
+
+            if($course->day_tuesday === 1){
+                 $course_listing .= 'Tu,';
+            }
+
+            if($course->day_wednesday === 1){
+                 $course_listing .= 'We,';
+            }
+
+            if($course->day_thursday === 1){
+                 $course_listing .= 'Th,';
+            }
+
+            if($course->day_friday === 1){
+                 $course_listing .= 'Fr,';
+            }
+
+            if($course->day_saturday === 1){
+                 $course_listing .= 'Sa,';
+            }                                    
+
+            if($course->day_sunday === 1){
+                 $course_listing .= 'Su,';
+            }
+
+            $course_listing .= date("M d", strtotime($course->start_date)).'-'.date("M d, Y ", strtotime($course->end_date)).date("g:i A ", strtotime($course->start_time)).'(EST)<br><br>By <span class="blue">'.$user_details[0]->enterprise_name.', '.$user_details[0]->location.'</span>
+                     </p>
+                  </div>
+               </div>
+            </div>';
+         }
+         echo $course_listing;
+         ?>       
+         {{ $courses->links() }}     
+            <!--<div class="cbp-item brand design graphics arts">
                <div class="services-main">
                   <div class="image bottom10">
                      <div class="image">
@@ -213,7 +271,7 @@
                      </p>
                   </div>
                </div>
-            </div>
+            </div>-->
          </div>
       </div>
    </div>
@@ -270,13 +328,15 @@
                <div class="row">
                   <div class="col-md-1"></div>
                   <div class="searchdown col-md-9 " style="    padding-left: 2px;">
-                     <input class="dropbtnn" id="Input" placeholder="21090">
+                     <input class="dropbtnn" name="fldSearchVendor" id="fldSearchVendor" placeholder="Enter zipcode">
                   </div>
                </div>
                <br>
                <p>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Providers in your area:</p>
                &nbsp;&nbsp;
-               <p class="">
+               <span id="section_search_result">
+
+               <!--<p class="">
                   <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
                   <span class="blue">Foundations Group, Maryland</span>&nbsp;&nbsp;
                   <button class="button1 button5">Patient </br> Health</button>
@@ -303,7 +363,9 @@
                   <span class="blue">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ChairOne
                   Fitness</span>&nbsp;&nbsp;
                   <button class="button1 button5">Fitness</button>
-               </p>
+               </p>-->
+
+               </span>               
             </div>
          </div>
       </div>
@@ -332,14 +394,15 @@
 <br>
 <!--Some Feature -->
 <section id="our-feature" class="single-feature padding">
-   <div class="container" id="activeDay" style="display: none;">
+   <div class="container" id="activeDay">
+      <!--<br><br>
       <div class="text-center">
          <div>
-            <img src="images/activeland.PNG" alt="" class="">
+            <img src="{{ asset('assets/app/images/activeland.PNG') }}" alt="" class="">
             <h2 class="inline ">Active Day, Maryland</h2>
          </div>
          <br>
-         <span> <img src="images/H_Logo.png" style="width: 40px;" /></span>
+         <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
          <button class="button1 button5">Patient </br> Health</button>
          <button class="button1 button5">Memory </br> Care</button>
          <button class="button1 button5">Adult Day</button>
@@ -348,7 +411,7 @@
       <br><br>
       <div class="row d-flex ">
          <div class="col-lg-4 offset-lg-1 col-md-5 col-sm-5 wow">
-            <div class="image"><img alt="SEO" src="./images/activeday.PNG"></div>
+            <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/activeday.PNG') }}"></div>
             <br>
             <p>Active Day of Arbutus
                <br><br>
@@ -397,15 +460,15 @@
                </ul>
                <br><br>
                <span class="blue">
-               <span> <img src="images/H_Logo.png" style="width: 40px;" /></span>
+               <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
                Virtual Membership available</span>
                <br>
                <span class="blue">
-               <span> <img src="images/H_Logo.png" style="width: 40px;" /></span>
+               <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
                In-Center Membership available</span>
                <br>
                <span class="blue">
-               <span> <img src="images/H_Logo.png" style="width: 40px;" /></span>
+               <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
                Hybrid Membership available</span>
             </div>
          </div>
@@ -414,7 +477,7 @@
          <button class="submit-lg btn-lg"> Visit Vendor's Website</button>
          &nbsp;&nbsp;
          <button class=" button button6 button4"> Email Vendor</button>
-      </div>
+      </div>-->
    </div>
 </section>
 <br><br><br>
@@ -426,6 +489,41 @@
 <script>
     /* When the user clicks on the button, 
     toggle between hiding and showing the dropdown content */
+
+   function search_nearby_vendor(zipcode){
+      $.ajax({
+         method: "POST",
+         url: "{{ route('search_vendor') }}",
+         data: { _token: "{{ csrf_token() }}", zipcode: zipcode }
+      })
+      .done(function( msg ) {
+         console.log( "Data Saved: " + msg );
+         $( "#section_search_result" ).html(msg);           
+      }); 
+   }
+
+   function show_vendor_details(vendor_id){
+      console.log('Vendor ID => ' + vendor_id);
+      $.ajax({
+         method: "POST",
+         url: "{{ route('show_vendor_details') }}",
+         data: { _token: "{{ csrf_token() }}", vendor_id: vendor_id }
+      })
+      .done(function( msg ) {
+         console.log( "Data Saved: " + msg );
+         $( "#activeDay" ).html(msg).show();           
+      }); 
+   }
+
+   $( document ).ready(function() {
+      //console.log( "ready!" );
+
+      $( "#fldSearchVendor" ).keyup(function() {
+         search_nearby_vendor($(this).val());
+      });      
+
+      //search_nearby_vendor('');
+   });
 
     function signin() {
       document.getElementById("loginDropdown").classList.toggle("show");
