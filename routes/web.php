@@ -16,19 +16,15 @@ Route::get('/member_login', 'HomeController@member_signin')->name('member_login'
 Route::get('/enterprise_login', 'HomeController@enterprise_signin')->name('enterprise_login');
 Route::get('/signinvendor_login', 'HomeController@vendor_signin')->name('signinvendor_login');
 
-
 Route::get('/our_services/{content_type?}', 'HomeController@our_services')->name('our_services_view_all');
 Route::get('/course_details/{course_id?}', 'CourseController@course_details')->name('view_course_details');
-
 
 Route::get('/member_dashboard', 'Buyer\DashboardController@index')->name('show_member_dashboard');
 Route::post('/add_card_details', 'Buyer\DashboardController@addCardDetails')->name('add_card_details');
 Route::get('/member_manage_classes', function () { return view('buyer.manage_classes'); })->name('show_member_classes');
 
-
 Route::get('/enterprise_dashboard', 'Buyer\DashboardController@index')->name('show_enterprise_dashboard');
 Route::get('/enterprise_account', function () { return view('enterprise.account'); })->name('show_enterprise_account');
-
 
 Route::get('/signinvendor_dashboard', 'HomeController@vendor_dashboard')->name('show_signinvendor_dashboard');
 Route::post('/update_signinvendor_dashboard', 'HomeController@update_user_data')->name('update_signinvendor_dashboard');
@@ -40,10 +36,10 @@ Route::post('/signinvendor_savenewcourse', 'CourseController@store')->name('show
 
 Route::get('/signinvendor_finance', function () { return view('vendor.finance'); })->name('show_signinvendor_finance');
 
-
 Route::post('/subscribe', 'SubscribeController@store')->name('save_subscriber');
 Route::post('/search_vendor', 'HomeController@searchVendor')->name('search_vendor');
 Route::post('/show_vendor_details', 'HomeController@showVendorDetails')->name('show_vendor_details');
+Route::post('/show_credit_details', 'HomeController@showCreditDetails')->name('show_credit_details');
 
 
 /*
@@ -129,7 +125,12 @@ Route::prefix('admin')->namespace('Admin')->middleware(['get.menu'])->group(func
             Route::get('/modals', function(){   return view('admin.dashboard.notifications.modals'); });
         });
         Route::resource('notes', 'NotesController');
+
         Route::resource('credits', 'CreditsController');
+        Route::get('/', 'CreditsController@index')->name('listCredits');
+        Route::post('update_credit/{id?}', 'CreditsController@update_details')->name('credit_update');
+        Route::post('save_credit', 'CreditsController@save_details')->name('credit_save');        
+        
         Route::resource('subscribers', 'SubscribersController'); 
         Route::resource('content_types', 'ContentTypesController');                
     });

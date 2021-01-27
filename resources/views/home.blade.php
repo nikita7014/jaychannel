@@ -324,27 +324,6 @@
             <a href="{{ route('our_services_view_all') }}/{{ $content_type->id }}"><span>{{ $content_type->name }}</span></a>
          </div>
          @endforeach
-         <!--<div data-filter=".arts" class="cbp-filter-item">
-            <span>Arts & <br> Crafts</span>
-         </div>
-         <div data-filter=".jaquard-elastics-tapes" class="cbp-filter-item">
-            <span>Food & <br> Diet</span>
-         </div>
-         <div data-filter=".lurex-elastics-tapes" class="cbp-filter-item">
-            <span>Fitness & <br> Mindfullness</span>
-         </div>
-         <div data-filter=".cords-laces" class="cbp-filter-item">
-            <span>Memory <br> Health</span>
-         </div>
-         <div data-filter=".rigid-tapes" class="cbp-filter-item">
-            <span> Outdoor <br> &nbsp;</span>
-         </div>
-         <div data-filter=".woven-elastics-tapes" class="cbp-filter-item">
-            <span>@Work <br> &nbsp;</span>
-         </div>
-         <div data-filter=".woven-elastics-tapes" class="cbp-filter-item">
-            <span>Education & <br>Family</span>
-         </div>-->
          <br>
          <div class="cbp-filter-item">
             <span><a href="{{ route('our_services_view_all') }}"><button class="submit">View all</button></a></span>
@@ -406,134 +385,6 @@
          }
          echo $course_listing;
          ?>
-            <!--<div class="cbp-item brand design graphics arts">
-               <div class="services-main">
-                  <div class="image bottom10">
-                     <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/New/cat1.jpg') }}"></div>
-                     <div class="overlay">
-                        <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                     </div>
-                  </div>
-                  <div class="services-content text-center text-md-left">
-                     <p class="bottom15">Indian Handmade Art- a Journey Back in History
-                        <br><br>
-                        Tu,Fr,Dec 12-Feb 5, 2021 11:00AM (EST)
-                        <br><br>
-                        By <span class="blue">EasterSeals Southern California</span>
-                     </p>
-                  </div>
-               </div>
-            </div>
-            <div class="cbp-item brand design graphics arts">
-               <div class="services-main">
-                  <div class="image bottom10">
-                     <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/New/cat2.jpg') }}"></div>
-                  </div>
-                  <div class="services-content text-center text-md-left">
-                     <p class="bottom15">Water Color in Spanish
-                        <br><br>
-                        Tu,Sa,Dec 10-Feb 28, 2021 2:00PM (EST)
-                        <br><br>
-                        By <span class="blue">DayBreak Adult Day Centers, Oakland CA</span>
-                     </p>
-                  </div>
-               </div>
-            </div>
-            <div class="cbp-item brand design graphics arts">
-               <div class="services-main">
-                  <div class="image bottom10">
-                     <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/New/cat3.jpg') }}"></div>
-                  </div>
-                  <div class="services-content text-center text-md-left">
-                     <p class="bottom15">Young Artist on Stage
-                        <br><br>
-                        M,Sa,Dec 4-Feb 28, 2021 9:00AM (EST)
-                        <br><br>
-                        By <span class="blue">Ative Day, Maryland</span>
-                     </p>
-                  </div>
-               </div>
-            </div>
-            <div class="cbp-item brand design graphics arts">
-               <div class="services-main">
-                  <div class="image bottom10">
-                     <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/New/cat4.jpg') }}"></div>
-                     <div class="overlay">
-                        <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                     </div>
-                  </div>
-                  <div class="services-content text-center text-md-left">
-                     <p class="bottom15">Building Block in Action
-                        <br><br>
-                        M,Sa,Nov 29-Feb 28, 2021 3:00PM (EST)
-                        <br><br>
-                        By <span class="blue">EasterSeals New Hampshire</span>
-                     </p>
-                  </div>
-               </div>
-            </div>
-            <div class="cbp-item brand design graphics">
-               <div class="services-main">
-                  <div class="image bottom10">
-                     <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/7.PNG') }}"></div>
-                     <div class="overlay">
-                        <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                     </div>
-                  </div>
-                  <div class="services-content text-center text-md-left">
-                     <p class="bottom15">Backyard Race in Korean
-                        <br><br>
-                        Fr,Su,Dec 20-Feb 23, 2021 5:00PM (EST)
-                        <br><br>
-                        By <span class="blue">Korean United Center, Seoul,Korea</span>
-                     </p>
-                  </div>
-               </div>
-            </div>
-            <div class="cbp-item brand design graphics">
-               <div class="services-main">
-                  <div class="image bottom10">
-                     <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/8.PNG') }}"></div>
-                  </div>
-                  <div class="services-content text-center text-md-left">
-                     <p class="bottom15">Indian Handmade Art- a Journey Back in History
-                        <br><br>
-                        Tu,Fr,Dec 12-Feb 5, 2021 11:00AM (EST)
-                        <br><br>
-                        By <span class="blue">EasterSeals Southern California</span>
-                  </div>
-               </div>
-            </div>-->
-            <!-- <div class="cbp-item brand design graphics">
-               <div class="services-main">
-                   <div class="image bottom10">
-                       <div class="image"><img alt="SEO" src="/images/9.PNG"></div>
-                   </div>
-                   <div class="services-content text-center text-md-left">
-                       <p class="bottom15">Indian Handmade Art- a Journey Back in History
-                           <br><br>
-                           Tu,Fr,Dec 12-Feb 5, 2021 11:00AM (EST)
-                           <br><br>
-                           By <span class="blue">EasterSeals Southern California</span>
-                       </p>
-                   </div>
-               </div>
-               </div> -->
-            <!-- <div class="cbp-item brand design graphics">
-               <div class="services-main">
-                   <div class="image bottom10">
-                       <div class="image"><img alt="SEO" src="/images/10.PNG"></div>
-                   </div>
-                   <div class="services-content text-center text-md-left">
-                       <p class="bottom15">Indian Handmade Art- a Journey Back in History
-                           <br><br>
-                           Tu,Fr,Dec 12-Feb 5, 2021 11:00AM (EST)
-                           <br><br>
-                           By <span class="blue">EasterSeals Southern California</span>
-                       </p>
-                   </div>
-               </div>
-               </div> -->
          </div>
       </div>
    </div>
@@ -605,35 +456,6 @@
                &nbsp;&nbsp;
                <span id="section_search_result">
 
-               <!--<p class="">
-                  <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-                  <span class="blue">Foundations Group, Maryland</span>&nbsp;&nbsp;
-                  <button class="button1 button5">Patient </br> Health</button>
-                  <button class="button1 button5">Memory </br> Care</button>
-                  <button class="button1 button5">Adult Day</button>
-               </p>
-               <p>
-                  <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-                  <span class="blue"><a onclick="activeDay()" href="#activeDay">Active Day,
-                  Maryland</a></span>&nbsp;&nbsp;
-                  <button class="button1 button5">Patient </br> Health</button>
-                  <button class="button1 button5">Memory </br> Care</button>
-                  <button class="button1 button5">Adult Day</button>
-                  <button class="button1 button5">Home <br> Help</button>
-               </p>
-               <p>
-                  <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-                  <span class="blue">EasterSeals,Sliver Spring, Maryland</span>&nbsp;&nbsp;
-                  <button class="button1 button5">Patient </br> Health</button>
-                  <button class="button1 button5">Memory </br> Care</button>
-                  <button class="button1 button5">Adult Day</button>
-               </p>
-               <p>
-                  <span class="blue">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ChairOne
-                  Fitness</span>&nbsp;&nbsp;
-                  <button class="button1 button5">Fitness</button>
-               </p>-->
-
                </span>               
             </div>
          </div>
@@ -662,90 +484,7 @@
 <!--Some Feature -->
 <section id="our-feature" class="single-feature padding">
    <div class="container" id="activeDay">
-      <!--<br><br>
-      <div class="text-center">
-         <div>
-            <img src="{{ asset('assets/app/images/activeland.PNG') }}" alt="" class="">
-            <h2 class="inline ">Active Day, Maryland</h2>
-         </div>
-         <br>
-         <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-         <button class="button1 button5">Patient </br> Health</button>
-         <button class="button1 button5">Memory </br> Care</button>
-         <button class="button1 button5">Adult Day</button>
-         <button class="button1 button5">Home <br> Help</button>
-      </div>
-      <br><br>
-      <div class="row d-flex ">
-         <div class="col-lg-4 offset-lg-1 col-md-5 col-sm-5 wow">
-            <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/activeday.PNG') }}"></div>
-            <br>
-            <p>Active Day of Arbutus
-               <br><br>
-               1667 knecht Ave, Suit Q Arbutus, MD 21227-1573
-               <br><br>
-               P:(888) 338-6898
-               <br>
-               F:(410) 242-6181
-               <br>
-               Email:Info@activeday.com
-               <br>
-               Hours of Operation:
-               <br>
-               Mon-Fri: 8am-4:30pm
-               <br>
-               Center Director:
-               <br>
-               Veronica Johnson
-            </p>
-         </div>
-         <div class="col-lg-6 col-md-7 col-sm-7 text-sm-left wow ">
-            <div class="heading-title col-md-12 mb-3">
-               <ul class="ul ullist">
-                  <li>
-                     Adults with Down Syndrome,Autism and developemntal or intellectual disabilities.
-                  </li>
-                  <li>
-                     Seniors with Alzheimer's Disease or other dementias receive active support in
-                     multi-faceted ways.
-                  </li>
-                  <li>
-                     Have direct access to specialized adult day healthcare
-                  </li>
-                  <li>
-                     Enjoy a day full of stimulating activities
-                  </li>
-                  <li>
-                     Highly qualified,caring staff members assist with medical needs
-                  </li>
-                  <li>
-                     Coordinate care with physicians and other healthcare professionals.
-                  </li>
-                  <li>
-                     Engage cognative and physical activities.
-                  </li>
-               </ul>
-               <br><br>
-               <span class="blue">
-               <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-               Virtual Membership available</span>
-               <br>
-               <span class="blue">
-               <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-               In-Center Membership available</span>
-               <br>
-               <span class="blue">
-               <span> <img src="{{ asset('assets/app/images/H_Logo.png') }}" style="width: 40px;" /></span>
-               Hybrid Membership available</span>
-            </div>
-         </div>
-      </div>
-      <div class="text-center">
-         <button class="submit-lg btn-lg"> Visit Vendor's Website</button>
-         &nbsp;&nbsp;
-         <button class=" button button6 button4"> Email Vendor</button>
-      </div>-->
-   </div>
+    </div>
 </section>
 <br>
 <br>
@@ -781,14 +520,10 @@
          <div class="cbp-item brand design graphics">
             <div class="services-main">
                <div class="image bottom10">
-                  <div class="image" onclick="myFunction()"><a href="#panel"> 
-                    @if ($credit->points == 50)
-                    <img class="h200" alt="SEO" src="{{ asset('assets/app/images/50credit.png') }}" />
-                    @elseif ($credit->points == 200)
-                    <img class="h200" alt="SEO" src="{{ asset('assets/app/images/200credi.png') }}" />
-                    @elseif ($credit->points == 500)
-                    <img class="h200" alt="SEO" src="{{ asset('assets/app/images/500credi.png') }}" />
-                    @endif
+                  <div class="image"><a href="#panel" onclick="show_credit_details({{ $credit->id }})"> 
+                    @isset($credit->homepage_image)
+                    <img class="h200" alt="SEO" src="{{ config('app.url') }}/storage/app/credit_homepage_image/{{ $credit->homepage_image }}" />
+                    @endisset
                   </a></div>
                   <div class="overlay">
                      <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
@@ -804,8 +539,11 @@
          <div class="cbp-item brand design graphics">
             <div class="services-main">
                <div class="image bottom10">
-                  <div class="image" onclick="myFunction()"><a href="#panel"><img class="h200" alt="SEO"
-                     src="{{ asset('assets/app/images/enter2.jpg') }}"></a></div>
+                  <div class="image"><a href="#panel" onclick="show_credit_details({{ $credit->id }})"> 
+                    @isset($credit->homepage_image)
+                    <img class="h200" alt="SEO" src="{{ config('app.url') }}/storage/app/credit_homepage_image/{{ $credit->homepage_image }}" />
+                    @endisset
+                  </a></div>
                   <div class="overlay">
                      <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
                   </div>
@@ -818,139 +556,14 @@
          </div>
          @endif
         @endforeach
-
-         <!--<div class="cbp-item brand design graphics">
-            <div class="services-main">
-               <div class="image bottom10">
-                  <div class="image" onclick="myFunction()"><a href="#panel"> <img class="h200" alt="SEO"
-                     src="{{ asset('assets/app/images/50credit.png') }}"></a></div>
-                  <div class="overlay">
-                     <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                  </div>
-               </div>
-               <div class="services-content text-center ">
-                  <p class="bottom15">$200
-                  </p>
-               </div>
-            </div>
-         </div>
-         <div class="cbp-item brand design graphics">
-            <div class="services-main">
-               <div class="image bottom10">
-                  <div class="image" onclick="myFunction()"><a href="#panel"><img alt="SEO"
-                     src="{{ asset('assets/app/images/graphics/200credi.png') }}"></a></div>
-                  <div class="overlay">
-                     <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                  </div>
-               </div>
-               <div class="services-content text-center ">
-                  <p class="bottom15">$600
-                  </p>
-               </div>
-            </div>
-         </div>
-         <div class="cbp-item brand design graphics">
-            <div class="services-main">
-               <div class="image bottom10">
-                  <div class="image" onclick="myFunction()"><a href="#panel"><img alt="SEO"
-                     src="{{ asset('assets/app/images/500credi.png') }}"></a></div>
-                  <div class="overlay">
-                     <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                  </div>
-               </div>
-               <div class="services-content text-center ">
-                  <p class="bottom15">$1000
-                  </p>
-               </div>
-            </div>
-         </div>
-         <div class="cbp-item brand design graphics">
-            <div class="services-main">
-               <div class="image bottom10">
-                  <div class="image" onclick="myFunction()"><a href="#panel"><img class="h200" alt="SEO"
-                     src="{{ asset('assets/app/images/enter2.jpg') }}"></a></div>
-                  <div class="overlay">
-                     <a href="#" class="overlay_center border_radius"><i class="fa fa-eye"></i></a>
-                  </div>
-               </div>
-               <div class="services-content text-center text-md-left">
-                  <p class="bottom15">
-                     Get a quote from us.
-                     Plenty of bonus for getting credits in bulk.
-                  </p>
-               </div>
-            </div>
-         </div>-->
       </div>
    </div>
 </div>
 <!--Some Feature ends-->
 <section id="our-feature" class="single-feature padding">
-   <div id="panel" class="container">
-      <div class="row d-flex ">
-         <div class="col-lg-4 offset-lg-1 col-md-5 col-sm-5 wow ">
-            <div class="image"><img alt="SEO" src="{{ asset('assets/app/images/500creditsbig.PNG') }}"></div>
-         </div>
-         <div class="col-lg-6 col-md-7 col-sm-7 text-sm-left text-center wow ">
-            <div class="heading-title col-md-10 mb-3">
-               <h3>Credits Class Pass</h3>
-               <br>
-               <ul class="ul ullist">
-                  <li>
-                     Purchase 500 credits for $1,000
-                  </li>
-                  <li>
-                     &2 / credit
-                  </li>
-                  <li>
-                     Credits can be used on as many Jaypad users
-                  </li>
-                  <li>
-                     One year expiration
-                  </li>
-                  <li>
-                     Automatic refill available
-                  </li>
-               </ul>
-               <br>
-               <div class="row">
-                  <div class="col-lg-4">
-                     &nbsp; &nbsp;&nbsp;
-                     <i style="font-size:24px;color: black;" class="fa">&#xf004;</i>
-                     <br>
-                     Wish List
-                     &nbsp;
-                  </div>
-                  <div class="col-lg-4">
-                     &nbsp;
-                     <i style='font-size:24px;color: black;' class='fa'>&#xf064;</i><br>
-                     Share
-                  </div>
-               </div>
-               <br>
-               <div class="quantity buttons_added">
-                  <div class="input-group inline-group">
-                     <h3 class="inline"><span style="padding-top: 10px;display: inline-flex;">
-                        $100.00
-                        </span> &nbsp; &nbsp; &nbsp; 
-                     </h3>
-                     <input type="number" step="1" min="15" max=""
-                        name="quantity" value="15" title="Qty" class="input-text qty text" size="6"
-                        pattern="" inputmode="">
-                     <input type="button" value="+" class="plus">
-                  </div>
-               </div>
-               <br><br>
-               <label class="switch">
-               <input type="checkbox" checked="checked">
-               <span class="slider round"> </span>
-               </label> &nbsp; Auto-Renewal
-               <br><br>
-               <button class=" button button6 ">Add to Cart</button>
-               <button class="submit-lg button">Checkout</button>
-            </div>
-         </div>
-      </div>
+   <div id="panel" class="container" style="display: block;">
+      <div class="row d-flex" id="section_credit_details" style="display: none;">
+       </div>
    </div>
 </section>
 <br>
@@ -1075,53 +688,7 @@
       background-size: cover; background-repeat: no-repeat;
       height: 100%;
       ">
-      <!-- <div class="row1 row ">
-         <div class="col col-lg-2 ">
-             <div class="page-titles whitecolor text-center padding">
-                         <div class="card">
-                             <div class="card-body">
-                                 <h3>Your Story</h3>
-                                 <br>
-                               <p>If JayChannel has made difference in your life, let us know</p>
-                             </div>
-                         </div>
-                     </div>
-             </div>
-             <div class="col col-lg-2 ">
-                 <div class="page-titles whitecolor text-center padding">
-                             <div class="card">
-                                 <div class="card-body">
-                                     <h3>I'm a Vendor</h3>
-                                     <br>
-                                 </div>
-                             </div>
-                     </div>
-                 </div>
-                 <div class="col col-lg-2 ">
-                     <div class="page-titles whitecolor text-center padding">
-                                 <div class="card">
-                                     <div class="card-body">
-                                         <h3>I'm a Vendor</h3>
-                                         <br>
-                                         <form>
-                                             <div class="input-group form-group">
-                                                Username &nbsp;&nbsp;
-                                                 <input type="text" class="form-control inputtop" >
-                                             </div>
-                                             <div class="input-group form-group ">
-                                                Password &nbsp;&nbsp;
-                                                 <input type="password" class="form-control inputtop">
-                                             </div>
-                                             <div class="form-group">
-                                                 <input type="submit" value="Enter" class="btn float-right login_btn">
-                                             </div>
-                                         </form>
-                                     </div>
-                             </div>
-                         </div>
-                     </div>
-         </div>
-         </div> -->
+
       <div class="row2 padding container">
          <div class="row">
             <div class="col-sm-1"></div>
@@ -1239,6 +806,21 @@
       }); 
    }
 
+   function show_credit_details(credit_id){
+      console.log('Credit ID => ' + credit_id);
+      $.ajax({
+         method: "POST",
+         url: "{{ route('show_credit_details') }}",
+         data: { _token: "{{ csrf_token() }}", credit_id: credit_id }
+      })
+      .done(function( msg ) {
+         console.log( "Data Saved: " + msg );
+         $("#section_credit_details").html(msg);           
+         $("#section_credit_details").show();
+         $("#section_credit_details").show();           
+      }); 
+   }   
+
    $( document ).ready(function() {
       //console.log( "ready!" );
 
@@ -1246,7 +828,7 @@
          search_nearby_vendor($(this).val());
       });      
 
-      //search_nearby_vendor('');
+      search_nearby_vendor('');
    });
 
    function signin() {

@@ -10,23 +10,32 @@
                     <div class="card-header">
                       <i class="fa fa-align-justify"></i> {{ __('Edit') }}: {{ $credit->title }}</div>
                     <div class="card-body">
-                        <form method="POST" action="/admin/credits/{{ $credit->id }}">
+                        <form method="POST" action="/admin/credits/{{ $credit->id }}" enctype="multipart/form-data" id="credits_id">
                             @csrf
                             @method('PUT')
-
+                            <input type="hidden" id="credit_id" name="credit_id" value="{{ $credit->id }}" />
                             <div class="form-group row">
                                 <label>Title</label>
-                                <input class="form-control" type="text" placeholder="{{ __('Title') }}" name="title" value="{{ $credit->title }}" required autofocus>
+                                <input class="form-control" type="text" placeholder="{{ __('Title') }}" id="title" name="title" value="{{ $credit->title }}" required autofocus>
                             </div>
 
                             <div class="form-group row">
                                 <label>Content</label>
-                                <textarea class="form-control" id="textarea-input" name="content" rows="9" placeholder="{{ __('Content..') }}" required>{{ $credit->content }}</textarea>
+                                <textarea class="form-control" id="content" name="content" rows="9" placeholder="{{ __('Content..') }}" required>{{ $credit->content }}</textarea>
                             </div>
 
                             <div class="form-group row">
+                                <label for="fld_image">Image</label>
+                                <input type="file" class="form-control" name="fld_image" id="fld_image" accept="image/*" style="padding: 0.200rem 0.75rem;" />
+                                @isset($credit->homepage_image)
+                                <img src="{{ config('app.url') }}/storage/app/credit_homepage_image/{{ $credit->homepage_image }}" width="50" />
+                                <input type="hidden" id="fld_image_existing" name="fld_image_existing" value="{{ $credit->homepage_image }}" />
+                                @endisset                                
+                            </div>                            
+
+                            <div class="form-group row">
                                 <label>Type</label>
-                                <select class="form-control" name="type">
+                                <select class="form-control" id="type" name="type">
                                     <option value="Fixed" <?php echo ($credit->type == 'Fixed')?'selected':''; ?>>Fixed</option>
                                     <option value="Variable" <?php echo ($credit->type == 'Variable')?'selected':''; ?>>Variable</option>
                                 </select>
@@ -34,12 +43,12 @@
 
                             <div class="form-group row">
                                 <label>Chargable Amount</label>
-                                <input class="form-control" type="number" placeholder="{{ __('Chargable Amount') }}" name="cost_amount" value="{{ $credit->cost_amount }}" required autofocus>
+                                <input class="form-control" type="number" placeholder="{{ __('Chargable Amount') }}" id="cost_amount" name="cost_amount" value="{{ $credit->cost_amount }}" required autofocus>
                             </div>                            
 
                             <div class="form-group row">
                                 <label>Points</label>
-                                <input class="form-control" type="number" placeholder="{{ __('Points') }}" name="points" value="{{ $credit->points }}" required autofocus>
+                                <input class="form-control" type="number" placeholder="{{ __('Points') }}" id="points" name="points" value="{{ $credit->points }}" required autofocus>
                             </div>
 
 
@@ -98,5 +107,52 @@
 @endsection
 
 @section('javascript')
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        $('#credits_id').on('submit', function(e) {
+            e.preventDefault();
+            var data = new FormData();
+            var title = $('#title').val();
+            var content = $('#content').val();
+            var type = $('#type').children("option:selected").val();
+            var cost_amount = $('#cost_amount').val();
+            var points = $('#points').val();
+            var is_for_sale = $('input[name="is_for_sale"]:checked').val();
+            var status = $('input[name="status"]:checked').val();
+            var is_auto_renewal = $('input[name="is_auto_renewal"]:checked').val();
+            var fld_image_existing = $('#fld_image_existing').val();            
+            var fld_image = $('#fld_image')[0].files[0];
+            data.append('title', title);
+            data.append('content', content);
+            data.append('type', type);
+            data.append('cost_amount', cost_amount);
+            data.append('points', points);
+            data.append('is_for_sale', is_for_sale);
+            data.append('status', status);
+            data.append('is_auto_renewal', is_auto_renewal);
+            data.append('fld_image_existing', fld_image_existing);
+            data.append('fld_image', fld_image);
+            var id = $('#credit_id').val();
+            console.log(fld_image);
+            $.ajax({
+                url: '{{ route('credit_update') }}/' + id +'?_token=' + '{{ csrf_token() }}',
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                beforeSend: function(data) {
 
+                },
+                success: function(data) {
+                    console.log(data);
+                    window.location.href = '{{ route('listCredits') }}';
+                },
+                error: function(data) {
+                    console.log(data)
+                },
+            });
+        });
+    });
+</script>
 @endsection

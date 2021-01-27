@@ -16,6 +16,12 @@
                         <p> {{ $credit->title }}</p>
                         <h4>Content:</h4> 
                         <p>{{ $credit->content }}</p>
+                        <h4>Homepage Image:</h4> 
+                        <p>
+                          @isset($credit->homepage_image)
+                          <img src="{{ config('app.url') }}/storage/app/credit_homepage_image/{{ $credit->homepage_image }}" width="150" />
+                          @endisset
+                        </p>                        
                         <h4>Type:</h4> 
                         <p>{{ $credit->type }}</p>
                         <h4>Amount To Be Charge:</h4>

@@ -32,18 +32,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        //$user = Auth::user();
-        //dd($user);
-
         $content_types = ContentTypes::ALL();
-        //dd($content_types);        
-
         $courses = Courses::orderBy('created_at', 'desc')->inRandomOrder()->limit(6)->get();
-        //dd($course);
-
         $credits = Credits::where('status', '=', 1)->orderBy('id', 'asc')->limit(4)->get();
-        //dd($credits);        
 
 		return view('home', ['courses' => $courses, 'content_types' => $content_types, 'credits' => $credits]);
     }
@@ -51,13 +42,10 @@ class HomeController extends Controller
     public function our_services($content_type = null, Request $request){
 
         $content_types = ContentTypes::ALL();
-        //dd($content_types);        
-        
         if(!empty($content_type)){
             $courses = Courses::where('content_type_id', '=', $content_type)->orderBy('created_at', 'desc')->inRandomOrder()->paginate( 20 );
         }else{
             $courses = Courses::orderBy('created_at', 'desc')->inRandomOrder()->paginate( 20 );
-            //dd($course);       
         }
 
         return view('ourservices', ['courses' => $courses, 'content_types' => $content_types]);  
@@ -66,7 +54,6 @@ class HomeController extends Controller
     public function member_signin()
     {
         $user = Auth::user();
-        //dd($user);
 
         if(!empty($user)){
             return $this->redirect_user_to_dashboard($user);
@@ -79,7 +66,6 @@ class HomeController extends Controller
     public function vendor_signin()
     {
         $user = Auth::user();
-        //dd($user);
 
         if(!empty($user)){
             return $this->redirect_user_to_dashboard($user);
@@ -92,8 +78,7 @@ class HomeController extends Controller
     public function enterprise_signin()
     {
         $user = Auth::user();
-        //dd($user);
-        
+
         if(!empty($user)){
             return $this->redirect_user_to_dashboard($user);
         }
@@ -110,7 +95,6 @@ class HomeController extends Controller
             if(!empty($user_details[0])){
                 $user_details = $user_details[0];
             }
-            //dd($user_details);
 
             $user_data = array(
                             'id' => $user->id,
@@ -164,8 +148,6 @@ class HomeController extends Controller
     public function update_user_data(Request $request)
     {
         $user = Auth::user();      
-
-        //die('sdklfsdkfjls');
         $validatedData = $request->validate([
             'fld_enterprise_name' => 'required|min:1|max:200',
             'fld_business_type' => 'required',
@@ -252,17 +234,13 @@ class HomeController extends Controller
         else{
             $vendors = UserInfo::where('business_address_zipcode', $postData['zipcode'])->orderBy('created_at', 'desc')->inRandomOrder()->limit(4)->get();
         }
-        //dd($vendors[0]->vendorCourses()->get());
-        
+
         $content = '';
         foreach ($vendors as $key => $vendor) {
             $content .= '<p class="">
                   <span> <img src="'.asset('assets/app/images/H_Logo.png').'" style="width: 40px;" /></span>
                   <span class="blue"><a href="#activeDay" onClick="show_vendor_details('.$vendor->user_id.')">'.$vendor->enterprise_name.', '.$vendor->location.'</a></span>&nbsp;&nbsp;';
 
-            //$courses = $vendor->vendorCourses()->get();
-            //dd($course);
-            //foreach($courses as $course){
                 if(((int)$vendor->service_offered_patient_monitoring) === 1){
                     $content .= '<button class="button1 button5">Patient Monitoring</button>';
                 }
@@ -298,11 +276,9 @@ class HomeController extends Controller
                 if(((int)$vendor->service_offered_vocational_help) === 1){
                     $content .= '<button class="button1 button5">Vocational Help</button>';
                 }   
-            //}
             $content .= '</p>';
         }
 
-        //return response()->json(['success'=>'Data is successfully added']);
         return $content;
     }
 
@@ -310,7 +286,6 @@ class HomeController extends Controller
 
         $postData = $request->all();
         $content = ''; 
-        //$postData['vendor_id'] = 12;       
         if(!empty($postData['vendor_id'])){
             $vendor = UserInfo::where('user_id', $postData['vendor_id'])->get();
 
@@ -381,23 +356,30 @@ class HomeController extends Controller
         }
 
         return $content;
-    }    
+    }
+
+    public function showCreditDetails(Request $request){
+
+        $postData = $request->all();
+
+        $content = '';       
+        if(!empty($postData['credit_id'])){
+            $credit = Credits::where('id', $postData['credit_id'])->get();
+
+            if(!empty($credit)){
+                $credit = $credit[0];
+
+                if($credit->is_for_sale == 1){
+                    $content .= '<div class="col-lg-4 offset-lg-1 col-md-5 col-sm-5 wow "><div class="image"><img alt="SEO" src="'.config('app.url').'/storage/app/credit_homepage_image/'.$credit->homepage_image.'"></div></div><div class="col-lg-6 col-md-7 col-sm-7 text-sm-left text-center wow "><div class="heading-title col-md-10 mb-3"><h3>'.$credit->title.'</h3><br><ul class="ul ullist"><li>Purchase '.$credit->points.' credits for $'.number_format($credit->cost_amount).'</li><li>&'.number_format(($credit->cost_amount/$credit->points)).' / credit</li><li>'.$credit->content.'</li><li>One year expiration</li><li>'.(($credit->is_auto_renewal == 1)?'Automatic refill available':'Automatic refill not available').'</li></ul><br><div class="row"><div class="col-lg-4">&nbsp; &nbsp;&nbsp;<i style="font-size:24px;color: black;" class="fa">&#xf004;</i><br>Wish List&nbsp;</div><div class="col-lg-4">&nbsp;<i style=\'font-size:24px;color: black;\' class=\'fa\'>&#xf064;</i><br>Share</div></div><br><div class="quantity buttons_added"><div class="input-group inline-group"><h3 class="inline"><span style="padding-top: 10px;display: inline-flex;">$'.number_format($credit->cost_amount).'</span> &nbsp; &nbsp; &nbsp;</h3><input type="number" step="1" min="15" max="" name="quantity" value="15" title="Qty" class="input-text qty text" size="6" pattern="" inputmode=""><input type="button" value="+" class="plus"></div></div><br><br><label class="switch"><input type="checkbox" checked="checked"><span class="slider round"> </span></label> &nbsp; Auto-Renewal<br><br><button class=" button button6 ">Add to Cart</button><button class="submit-lg button">Checkout</button></div></div>';
+                }
+            }           
+        }
+
+        return $content;
+    }         
 
     private function redirect_user_to_dashboard($user)
     {
-        //var_dump($user->user_type);
-        /*if($user->user_type == 'Member'){
-            return redirect()->route('show_member_dashboard');
-            //return view('buyer.dashboard');
-        }
-        elseif($user->user_type == 'Vendor'){
-            return redirect()->route('show_signinvendor_dashboard');
-            //return view('vendor.dashboard');
-        }
-        else{
-            return redirect()->route('show_enterprise_dashboard');
-            //sreturn view('enterprise.dashboard');
-        }*/
         return redirect()->route($user->getUserAccountUrl());       
     } 
 
