@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class User extends Authenticatable
 {
@@ -15,6 +17,18 @@ class User extends Authenticatable
     use SoftDeletes;
     use HasRoles;
     use HasFactory;
+
+    const ADMIN = 'admin';
+    const MEMBER = 'Member';
+    const VENDOR = 'Vendor';
+    const ENTERPRISE = 'Enterprise';
+
+    const MEMBER_ACCOUNT_URL = 'show_member_dashboard';
+    const VENDOR_ACCOUNT_URL = 'show_signinvendor_dashboard';
+    const ENTERPRISE_ACCOUNT_URL = 'show_enterprise_account'; 
+
+    const STORAGE_VENDOR_LOGO = 'vendor_logo';           
+
     
     protected $table = 'users';
 
@@ -52,4 +66,46 @@ class User extends Authenticatable
     protected $attributes = [ 
         'menuroles' => 'user',
     ];
+
+    public function isMember()
+    {
+        return $this->user_type == SELF::MEMBER;
+    } 
+
+    public function isVendor()
+    {
+        return $this->user_type == SELF::VENDOR;
+    }  
+
+    public function isEnterprise()
+    {
+        return $this->user_type == SELF::ENTERPRISE;
+    } 
+
+    public function get_vendor_logo_upload_path()
+    {
+        return SELF::STORAGE_VENDOR_LOGO;
+    }     
+
+    public function getUserAccountUrl()
+    {
+        if($this->user_type == SELF::ENTERPRISE){
+            return SELF::ENTERPRISE_ACCOUNT_URL;
+        }
+        elseif($this->user_type == SELF::VENDOR){
+            return SELF::VENDOR_ACCOUNT_URL;
+        }
+        else{
+            return SELF::MEMBER_ACCOUNT_URL;
+        }
+    } 
+
+    public function myDetails()
+    {
+        return $this->hasOne('App\Models\UserInfo', 'user_id');
+    } 
+
+    public function myCourses(){
+        return $this->hasMany('App\Models\Courses', 'user_id');
+    }                     
 }

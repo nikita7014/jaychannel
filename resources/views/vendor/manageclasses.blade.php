@@ -21,8 +21,11 @@
                Welcome back,EasterSeals!
          </div>
          <div class="col-sm-4">
-         <img src="{{ asset('assets/app/images/easter-logo.jpg') }}" alt="EasterSeals" style="width: 50%;
-            position: relative;" />
+         <!--<img src="{{ asset('assets/app/images/easter-logo.jpg') }}" alt="EasterSeals" style="width: 50%;
+            position: relative;" />-->
+         @if ($user_info->logo != '')
+         <img src="{{ config('app.url') }}/storage/app/{{ $vendor_logo_upload_path }}/{{ $user_info->logo }}" alt="EasterSeals" style="width: 50%; position: relative;"/>
+         @endif            
          </div>
       </div>
       </h2>
@@ -35,9 +38,7 @@
             <br>
             <!-- <h4><span class="blue">Manage <br> Classes</span></h4> <br> -->
             <!-- <h4>leads</h4> <br> -->
-            <a href="{{ route('show_signinvendor_finance') }}">
-            Finance
-            </a>
+            <a href="{{ route('show_signinvendor_finance') }}">Finance</a>
          </div>
          <div class="col-lg-9 col-md-7 col-sm-7 text-sm-left text-center " >
             <div class="heading-title col-md-12 mb-3">
@@ -49,8 +50,8 @@
                <div class="row">
                   <div class="col-lg-8 col-12 text-center">
                      <p> &nbsp;&nbsp; &nbsp;&nbsp;
-                        <a href="manageclasses.html">New Class</a> &nbsp;&nbsp;&nbsp; &nbsp;
-                        &nbsp; &nbsp; &nbsp;<span class="blue"> <a href="#">Edit Classes</a></span>
+                        <a href="{{ route('show_signinvendor_createcourse') }}">New Class</a><!-- &nbsp;&nbsp;&nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp;<span class="blue"> <a href="#">Edit Classes</a>--></span>
                      </p>
                   </div>
                </div>
@@ -64,11 +65,18 @@
                      </tr>
                   </thead>
                   <tbody>
+                     @foreach ($user_course_info as $course)
                      <tr>
+                        <td><a href="{{ route('show_signinvendor_editcourse') }}/{{ $course->id }}">{{ $course->id }}</a></td>
+                        <td>{{ $course->title }}</td>
+                        <td>0</td>
+                     </tr>
+                     @endforeach
+                     <!--<tr>
                         <td class="blue">0348876</td>
                         <td class="blue">Disability Thrives</td>
                         <td class="blue">15</td>
-                     </tr>
+                     </tr>                     
                      <tr>
                         <td>0348661</td>
                         <td>Gardening Homes</td>
@@ -108,7 +116,7 @@
                         <td>0348300</td>
                         <td>Music With A Chair</td>
                         <td>10</td>
-                     </tr>
+                     </tr>-->
                   </tbody>
                </table>
             </div>
@@ -123,7 +131,7 @@
             <br>
             <h4>Manage <br> Classes</h4>
             <br>
-            <h4><span class="blue"><a href="finance.html">Finance</a></span></h4>
+            <h4><span class="blue"><a href="{{ route('show_signinvendor_finance') }}">Finance</a></span></h4>
             <br>
          </div>
          <div class="col-lg-9 col-md-7 col-sm-7 text-sm-left text-center " >
@@ -196,7 +204,7 @@
       </div>
    </div>
 </section>
-<section>
+<section style="display:none;">
    <div class="container padding_top text-center">
       <h3>Hey EasterSeals Southern California,
          <br>

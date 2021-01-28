@@ -15,8 +15,9 @@
    <div class="container ">
       <br>
       <br>
-      <h2 class="padding content-padding">Welcome back, SunnySide Urban Manor</h2>
+      <h2 class="padding content-padding">Welcome back, {{$you['name']}}</h2>
       <br>
+  
       <div class="row d-flex ">
          <div class="col-lg-2 offset-lg-1 col-md-5 col-sm-5 " >
             <h4><a href="{{ route('show_enterprise_account') }}">JayChannel <br> Account</a></h4>
@@ -39,7 +40,7 @@
                      <p class="mb-4"> <span class="blue">Enrolled Classes </span>&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Wish
                         List
                      </p>
-                     <h2 class="text-center">You've 566 credits</h2>
+                     <h2 class="text-center">You've {{$creditsAvailable}} credits</h2>
                      <br>
                   </div>
                </div>
@@ -54,70 +55,17 @@
                      </tr>
                   </thead>
                   <tbody>
+                  @foreach($classBookedDetails as $class_details)
                      <tr>
-                        <td class="blue">0348876</td>
-                        <td class="blue">Disability Thrives</td>
-                        <td class="blue text-center">15</td>
-                        <td class="blue text-center">250 </td>
+                        <td class="blue">{{ $class_details->course_id }}</td>
+                        <td class="blue">{{ $class_details->title }}</td>
+                        <td class="blue text-center">{{ $class_details->registered_participants }}</td>
+                        <td class="blue text-center">{{$class_details->credit_used}} </td>
                         <!-- <td class="blue text-center">250</td> -->
                         <td >Cancel</td>
                      </tr>
-                     <tr>
-                        <td>0348661</td>
-                        <td>Gardening Homes</td>
-                        <td class="text-center">12</td>
-                        <td class="text-center">80</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348110</td>
-                        <td>Travelling in Time</td>
-                        <td class="text-center">10</td>
-                        <td class="text-center">150</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348668</td>
-                        <td>Happy Hour with Dee</td>
-                        <td class="text-center">8</td>
-                        <td class="text-center">141</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348222</td>
-                        <td>One World One Love</td>
-                        <td class="text-center">13</td>
-                        <td class="text-center">132</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348441</td>
-                        <td>Tea Master in Ceremony</td>
-                        <td class="text-center">11</td>
-                        <td class="text-center">112</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348752</td>
-                        <td>Zumba for Begineers</td>
-                        <td class="text-center">12</td>
-                        <td class="text-center">90</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348757</td>
-                        <td>Mexcio Travel Fun</td>
-                        <td class="text-center">12</td>
-                        <td class="text-center">45</td>
-                        <td >Cancel</td>
-                     </tr>
-                     <tr>
-                        <td>0348300</td>
-                        <td>Music With A Chair</td>
-                        <td class="text-center">10</td>
-                        <td class="text-center">66</td>
-                        <td >Cancel</td>
-                     </tr>
+                     @endforeach
+                   
                   </tbody>
                </table>
             </div>

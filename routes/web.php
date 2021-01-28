@@ -12,23 +12,44 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-
+//Route::get('/member_login', function () {  return view('buyer.login'); })->name('member_login');
 Route::get('/member_login', 'HomeController@member_signin')->name('member_login');
+//Route::get('/enterprise_login', function () { return view('enterprise.login'); })->name('enterprise_login');
 Route::get('/enterprise_login', 'HomeController@enterprise_signin')->name('enterprise_login');
+//Route::get('/signinvendor_login', function () { return view('vendor.login'); })->name('signinvendor_login');
 Route::get('/signinvendor_login', 'HomeController@vendor_signin')->name('signinvendor_login');
+
 
 Route::get('/our_services', function () { return view('ourservices'); })->name('our_services_view_all');
 Route::get('/course_details', function () { return view('coursedetails'); })->name('view_course_details');
 
-Route::get('/member_dashboard', function () { return view('buyer.dashboard'); })->name('show_member_dashboard');
-Route::get('/member_manage_classes', function () { return view('buyer.manage_classes'); })->name('show_member_classes');
 
-Route::get('/enterprise_dashboard', function () { return view('enterprise.dashboard'); })->name('show_enterprise_dashboard');
-Route::get('/enterprise_account', function () { return view('enterprise.account'); })->name('show_enterprise_account');
+//Route::get('/member_dashboard', function () { return view('buyer.dashboard'); })->name('show_member_dashboard');
+Route::get('/member_dashboard', 'Buyer\DashboardController@index')->name('show_member_dashboard');
+Route::post('/add_card_details', 'Buyer\DashboardController@addCardDetails')->name('add_card_details');
+//Route::get('/member_manage_classes', function () { return view('buyer.manage_classes'); })->name('show_member_classes');
 
-Route::get('/signinvendor_dashboard', function () { return view('vendor.dashboard'); })->name('show_signinvendor_dashboard');
-Route::get('/signinvendor_manageclasses', function () { return view('vendor.manageclasses'); })->name('show_signinvendor_manageclasses');
+Route::get('/member_manage_classes', 'Buyer\DashboardController@memberManageClass')->name('show_member_classes');
+
+//  Route::get('/enterprise_dashboard', function () { return view('enterprise.dashboard'); })->name('show_enterprise_dashboard');
+
+Route::get('/enterprise_dashboard', 'Enterprise\DashboardController@enterpriseClasses')->name('show_enterprise_dashboard');
+//Route::get('/enterprise_dashboard', 'Enterprise\DashboardController@index')->name('show_enterprise_dashboard');
+Route::post('/add_enterprise_card_details', 'Enterprise\DashboardController@addEnterpriseCardDetails')->name('add_enterprise_card_details');
+
+Route::get('/enterprise_account', 'Enterprise\DashboardController@index')->name('show_enterprise_account');
+
+
+Route::get('/signinvendor_dashboard', 'HomeController@vendor_dashboard')->name('show_signinvendor_dashboard');
+Route::post('/update_signinvendor_dashboard', 'HomeController@update_user_data')->name('update_signinvendor_dashboard');
+
+Route::get('/signinvendor_manageclasses', 'CourseController@index')->name('show_signinvendor_manageclasses');
+Route::get('/signinvendor_createcourse', 'CourseController@create_course')->name('show_signinvendor_createcourse');
+Route::get('/signinvendor_editcourse/{id?}', 'CourseController@edit_course')->name('show_signinvendor_editcourse');
+Route::post('/signinvendor_savenewcourse', 'CourseController@store')->name('show_signinvendor_savenewcourse');
+
 Route::get('/signinvendor_finance', function () { return view('vendor.finance'); })->name('show_signinvendor_finance');
+
 
 Route::post('/subscribe', 'SubscribeController@store')->name('save_subscriber');
 
@@ -48,8 +69,14 @@ Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login')->name('verify_login');
 Route::get('/logout', function(){
    Auth::logout();
+   //return Redirect::to('/admin/');
    return Redirect::to('/login');
 })->name('logout');
+
+Route::get('/logout', function(){
+   Auth::logout();
+   return Redirect::to('/');
+})->name('user_logout');
 
 
 /*
@@ -57,9 +84,11 @@ Route::get('/logout', function(){
 | Admin
 |--------------------------------------------------------------------------
 */
+//Route::group(['middleware' => ['get.menu']], function () {
 Route::prefix('admin')->namespace('Admin')->middleware(['get.menu'])->group(function() {    
+    //Route::get('/', function () { return view('admin.dashboard.homepage'); });
     Route::get('/', function () {
-        if (Auth::check()) {
+        if (Auth::check()) {   // && Auth::user()->isAdmin()
             return view('admin.dashboard.homepage'); 
         }
 

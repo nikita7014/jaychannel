@@ -89,6 +89,7 @@ class LoginController extends Controller
         else{
             if(!empty($you) && !empty($you->user_type)){
                 if($you->user_type == 'Member'){
+                  
                     return redirect()->route('show_member_dashboard');
                 }
                 elseif($you->user_type == 'Vendor'){

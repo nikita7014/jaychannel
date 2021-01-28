@@ -153,14 +153,23 @@
                <li class="nav-item dropdown static">
                   <a class="nav-link  " href="{{ route('home') }}#aboutjaypad"> JayPad  </a>
                </li>
-               <li class="nav-item ">
+            
+               @guest
                   <a onclick="signin()" class="nav-link dropbtn">Sign in</a>
                   <div id="loginDropdown" class="dropdown-content">
-                     <a href="{{ route('member_login') }}">I'm a Member</a>
-                     <a href="{{ route('enterprise_login') }}">I'm an Enterprise</a>
-                     <a href="{{ route('signinvendor_login') }}">I'm a Vendor</a>
+                          <a href="{{ route('member_login') }}">I'm a Member</a>
+                          <a href="{{ route('enterprise_login') }}">I'm an Enterprise</a>
+                          <a href="{{ route('signinvendor_login') }}">I'm a Vendor</a>
                   </div>
-               </li>
+                  @endguest
+
+                  @auth
+                     <a onclick="signin()" class="nav-link dropbtn">Welcome ({{ Auth::user()->name }})</a>
+                     <div id="loginDropdown" class="dropdown-content">
+                        <a href="{{ route(Auth::user()->getUserAccountUrl()) }}">Manage Profile</a>
+                        <a href="{{ route('user_logout') }}">Sign Out</a>
+                     </div>                      
+                  @endauth
                <li class="nav-item">
                   <a class="nav-link" href="#">Contact</a>
                </li>

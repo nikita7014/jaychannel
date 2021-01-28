@@ -89,6 +89,21 @@
             <h4> &nbsp; &nbsp; <img src="{{ asset('assets/app/images/arrow.PNG') }}" alt="" width="25px" height="25px">&nbsp; &nbsp; {{ __('Register') }}</h4>
             <br>
             <br>
+            <div class="notification-box">
+               @if(Session::has('success_message'))
+               <div class="alert alert-success" role="alert">
+                  {{ Session::get('success_message') }}
+               </div>
+               @endif
+
+               @if(Session::has('error_message'))
+               <div class="alert alert-danger" role="alert">
+                  {{ Session::get('error_message') }}
+               </div>
+               @endif
+
+
+            </div>
             <form method="POST" action="{{ route('register_user') }}">
               @csrf
               <div class="row">
@@ -97,6 +112,7 @@
                 </div>
                 <div class="col-lg-10 col-sm-10 col-xs-10">
                   <input class="form-control custom-file float-right" type="text" placeholder="{{ __('Name') }}" name="name" value="{{ old('name') }}" required autofocus />
+                  <label class="error">{{ $errors->first('name') }}</label>
                 </div>
               </div>
               <br>
@@ -106,6 +122,7 @@
                 </div>
                 <div class="col-lg-10 col-sm-10 col-xs-10">
                   <input type="text" class="form-control custom-file float-right" name="address" placeholder="{{ __('Address') }}" required />
+                  <label class="error">{{ $errors->first('address') }}</label>
                 </div>
               </div>
               <br>
@@ -115,6 +132,7 @@
                 </div>
                 <div class="col-lg-10 col-sm-10 col-xs-10">
                   <input type="tel" class="form-control custom-file float-right" name="tel" placeholder="{{ __('Tel') }}" required />
+                  <label class="error">{{ $errors->first('tel') }}</label>
                 </div>
               </div>
               <br>
@@ -124,6 +142,7 @@
                 </div>
                 <div class="col-lg-10 col-sm-10 col-xs-10">
                   <input type="email" class="form-control custom-file float-right" placeholder="{{ __('E-Mail Address') }}" name="email" value="{{ old('email') }}" required />
+                  <label class="error">{{ $errors->first('email') }}</label>
                 </div>
               </div>
               <br>
@@ -137,6 +156,7 @@
                       <option value="Vendor">Vendor</option>
                       <option value="Enterprise">Enterprise</option>                      
                   </select>
+                  <label class="error">{{ $errors->first('user_type') }}</label>
                 </div>
               </div> 
               <br>
@@ -146,6 +166,7 @@
                 </div>
                 <div class="col-lg-10 col-sm-10 col-xs-10">
                   <input class="form-control custom-file float-right" type="password" placeholder="{{ __('Password') }}" name="password" required />
+                  <label class="error">{{ $errors->first('password') }}</label>
                 </div>
               </div>
               <br>
@@ -156,6 +177,7 @@
                 <div class="col-lg-10 col-sm-10 col-xs-10">
                   <input class="form-control custom-file float-right" type="password" placeholder="{{ __('Confirm Password') }}" name="password_confirmation" required />
                 </div>
+                <label class="error">{{ $errors->first('password_confirmation') }}</label>
               </div>                                         
               <br>
               <br>

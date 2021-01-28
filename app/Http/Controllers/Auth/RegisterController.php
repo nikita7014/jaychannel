@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class RegisterController extends Controller
 {
     /*
@@ -52,15 +54,81 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         //dd($request);
-        $this->validator($request->all())->validate();
+     
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:3', 'confirmed'],
+            'address' => ['required', 'string', 'max:255'],
+            'tel' => ['required', 'numeric'],
+            'user_type' => ['required', 'string', 'max:255'],      
+        ]);
 
-        event(new Registered($user = $this->create($request->all())));
 
-        $this->guard()->login($user);
+        if ($validator->fails()) {
+            $data['msg'] = 'All Errors';
+            $data['data']['error'] = $validator->errors(); 
 
-        $request->session()->flash('message', 'You has Successfully registered your account.');        
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+         
+            //session()->flash('error_message', 'Please provide name, email and password!');
+            return redirect()->back()->withInput()->withErrors($validator);
+
+        }else{
+            $checkUser = User::where('email', $request->email)->first();
+            
+            if($checkUser) {
+                session()->flash('error', 'User already exists!');
+                return redirect()->error_message();
+            }else{
+                $user = new User;
+                $user->name = $request['name'];
+                $user->email = $request['email'];
+                $user->address = $request['address'];
+                $user->tel = $request['tel'];
+                $user->user_type = $request['user_type'];                                    
+                $user->password = Hash::make($request['password']);
+              
+                $status = $user->save();
+                if($status) {
+               
+                    $lastInsertId= $user->id;
+                    $userDetail =new UserDetail;
+                    $userDetail->user_id = $lastInsertId;
+                    $userDetail->service_offered_patient_monitoring=0;
+                    $userDetail->service_offered_home_health=0;
+                    $userDetail->service_offered_activities=0;
+                    $userDetail->service_offered_counselling=0;
+                    $userDetail->service_offered_support_group=0;
+                    $userDetail->service_offered_case_management=0;
+                    $userDetail->service_offered_food_nutrition=0;
+                    $userDetail->service_offered_memory_care=0;
+                    $userDetail->service_offered_vocational_help=0;
+                    $userDetail->membership_in_center=0;
+                    $userDetail->membership_virtual=0;
+                    $userDetail->membership_hybrid=0;
+                    $status = $userDetail->save();
+                    session()->flash('success_message', 'User added successfully!');
+                    $this->guard()->login($user);
+                    return redirect($this->redirectPath());
+                }else{
+                    session()->flash('error_message', 'Failed to add user!');
+                    return redirect()->back();
+                }
+            }
+        }
+    //     $this->validator($request->all())->validate();
+    //     $user = $this->create($request->all());
+       
+    //     event(new Registered( $user));
+        
+
+    //     $this->guard()->login($user);
+
+    //     $request->session()->flash('message', 'You has Successfully registered your account.');       
+      
+    //    return $this->registered($request, $user)
+    //                     ?: redirect($this->redirectPath());
+ 
     }
 
     /**
@@ -87,9 +155,24 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
+    private function generateUid ($params = array()){
+        try{
+            return Uuid::uuid3(Uuid::NAMESPACE_DNS, $params['name']."###".$params['email']);
+        } catch(UnsatisfiedDependencyException $dependencyException){
+            Log::error("UUID was not generated successful for User with name ".$params['name']." Error: ".$dependencyException->getCode()." - Message: ".$dependencyException->getMessage());
+        }
+        catch (\Exception $ex){
+            Log::error('Error: '.$ex->getCode()." - Message: ".$ex->getMessage());
+        }
+
+    }
+
+
+ 
     protected function create(array $data)
     {
-
+        $data['id'] = $this->generateUid($data);
         $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -101,4 +184,5 @@ class RegisterController extends Controller
         $user->assignRole('user');
         return $user;
     }
+   
 }
